@@ -11,9 +11,13 @@ class Button {
 
 private:
     sf::RectangleShape _rect;
+    sf::Font _font;
+    sf::Text _text;
 
     float _buttonWidth{200.f};
     float _buttonHeight{150.f};
+
+    bool _selected{false};
 
 public:
     Button();
@@ -21,7 +25,16 @@ public:
     ~Button();
 
     sf::RectangleShape getRectangle() const;
-    void setText(sf::RenderWindow& window);
+    void setRectanglePosition(float x, float y);
+
+    sf::Text getTextButton() const;
+    void setTextButton(std::string str);
+//    void setText(sf::RenderWindow& window);
+
+    bool isSelected() const;
+    void setSelected(bool select);
+
+    void changeAspect();
 };
 
 

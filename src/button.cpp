@@ -8,7 +8,15 @@
 Button::Button(float windowX, float windowY) {
     _rect.setSize(sf::Vector2(_buttonWidth, _buttonHeight));
     _rect.setOrigin(_buttonWidth / 2, _buttonHeight /2);
-    _rect.setPosition(windowX / 2, windowY / 2);
+    _rect.setPosition(windowX, windowY);
+
+    if (!_font.loadFromFile("../assets/fonts/Quicksand-Bold.ttf"))
+        std::cout << "Error loading font." << std::endl;
+
+    _text.setFont(_font);
+    _text.setFillColor(sf::Color::Red);
+    _text.setCharacterSize(40);
+    setTextButton("I am a button");
 }
 
 Button::~Button() {}
@@ -17,20 +25,34 @@ sf::RectangleShape Button::getRectangle() const {
     return _rect;
 }
 
-void Button::setText(sf::RenderWindow &window) {
-    sf::Font font;
+void Button::setRectanglePosition(float x, float y) {
+    _rect.setPosition(x, y);
+}
 
-    if (!font.loadFromFile("../assets/fonts/Quicksand-Bold.ttf"))
-        std::cout << "Error loading font." << std::endl;
+void Button::setTextButton(std::string str) {
+    _text.setString(str);
+    _text.setOrigin(_text.getGlobalBounds().width / 2, _text.getLocalBounds().height);
+    _text.setPosition(_rect.getPosition().x, _rect.getPosition().y);
+}
 
-    sf::Text text;
-    text.setFont(font);
-    text.setFillColor(sf::Color::Red);
-    text.setCharacterSize(40);
-    text.setString("I am a button");
+sf::Text Button::getTextButton() const {
+    return _text;
+}
 
-    text.setOrigin(text.getLocalBounds().width / 2 , text.getLocalBounds().height);
-    text.setPosition(_rect.getPosition().x, _rect.getPosition().y);
+bool Button::isSelected() const {
+    return _selected;
+}
 
-    window.draw(text);
+void Button::setSelected(bool select) {
+    _selected = select;
+}
+
+void Button::changeAspect() {
+    if (isSelected()) {
+        _rect.setFillColor(sf::Color::Green);
+        _text.setFillColor(sf::Color::White);
+    } else {
+        _rect.setFillColor(sf::Color::White);
+        _text.setFillColor(sf::Color::Red);
+    }
 }
