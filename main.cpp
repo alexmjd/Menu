@@ -1,9 +1,12 @@
-#include <iostream>
 #include <SFML/Graphics.hpp>
+#include <button.h>
 
 int main() {
 
-    sf::RenderWindow window(sf::VideoMode(800, 600), "Menu");
+    const float windowWidth(800), windowHeight(600);
+    sf::RenderWindow window(sf::VideoMode(windowWidth, windowHeight), "Menu");
+
+    Button button(windowWidth, windowHeight);
 
     while (window.isOpen()) {
         sf::Event event;
@@ -15,7 +18,10 @@ int main() {
         }
 
         window.clear(sf::Color::Black);
-//        window.draw();
+
+        window.draw(button.getRectangle());
+        button.setText(window);
+
         window.display();
     }
 
