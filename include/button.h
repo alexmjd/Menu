@@ -29,7 +29,6 @@ public:
 
     sf::Text getTextButton() const;
     void setTextButton(std::string str);
-//    void setText(sf::RenderWindow& window);
 
     bool isSelected() const;
     void setSelected(bool select);

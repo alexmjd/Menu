@@ -10,8 +10,17 @@ Button::Button(float windowX, float windowY) {
     _rect.setOrigin(_buttonWidth / 2, _buttonHeight /2);
     _rect.setPosition(windowX, windowY);
 
-    if (!_font.loadFromFile("../assets/fonts/Quicksand-Bold.ttf"))
+    std::string path;
+#if _WIN64
+    path = "C:\\Windows\\Fonts\\";
+#elif __MACH__
+    path = "/System/Library/Fonts/Supplemental/";
+#endif
+    path += "arial.ttf";
+
+    if (!_font.loadFromFile(path))
         std::cout << "Error loading font." << std::endl;
+
 
     _text.setFont(_font);
     _text.setFillColor(sf::Color::Red);
