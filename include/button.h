@@ -14,6 +14,8 @@ private:
     sf::Font _font;
     sf::Text _text;
 
+    int _index;
+
     std::string _path;
 
     float _buttonWidth{200.f};
@@ -37,7 +39,11 @@ public:
     bool isSelected() const;
     void setSelected(bool select);
 
+    int getIndex() const;
+    void setIndex(int i);
+
     void changeAspect();
+    void draw(sf::RenderWindow& window);
 };
 
 

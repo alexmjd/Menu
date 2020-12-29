@@ -12,10 +12,8 @@ Button::Button() {
 
     setFontPath();
 
-//    _text.setFont(_font);
     _text.setFillColor(sf::Color::Red);
     _text.setCharacterSize(40);
-//    setTextButton("I am a button");
 }
 
 Button::~Button() {}
@@ -46,6 +44,19 @@ bool Button::isSelected() const {
 
 void Button::setSelected(bool select) {
     _selected = select;
+}
+
+int Button::getIndex() const {
+    return _index;
+}
+
+void Button::setIndex(int i) {
+    _index = i;
+}
+
+void Button::draw(sf::RenderWindow& window) {
+    window.draw(_rect);
+    window.draw(_text);
 }
 
 /**
