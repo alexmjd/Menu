@@ -1,6 +1,7 @@
 #include <SFML/Graphics.hpp>
 #include <button.h>
 #include <menu.h>
+#include <iostream>
 
 int main() {
 
@@ -10,10 +11,8 @@ int main() {
     window.setFramerateLimit(60);
 
     Menu menu;
-    menu.fillMenu();
 
-//    Button button(windowWidth / 3, windowHeight / 2);
-//    Button button2(2 * (windowWidth / 3), windowHeight / 2);
+    int index;
 
     while (window.isOpen()) {
         sf::Event event;
@@ -23,30 +22,31 @@ int main() {
                 (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Escape))
                 window.close();
 
-//            if (event.type == sf::Event::KeyPressed &&
-//                (event.key.code == sf::Keyboard::Left)) {
-//                button.setSelected(true);
-//                button2.setSelected(false);
-//            }
-//            if (event.type == sf::Event::KeyPressed &&
-//                (event.key.code == sf::Keyboard::Right)) {
-//                button.setSelected(false);
-//                button2.setSelected(true);
-//            }
+            if (event.type == sf::Event::KeyPressed &&
+                (event.key.code == sf::Keyboard::Left)) {
+                index = menu.getSelectedButtonIndex();
+                for(Button button : menu.getMenuElements())
+                    button.setSelected(false);
+                if (index == 0)
+                    index = menu.getMenuElements().size();
+                menu.getMenuElements()[index].setSelected(true);
+            }
+            if (event.type == sf::Event::KeyPressed &&
+                (event.key.code == sf::Keyboard::Right)) {
+                index = menu.getSelectedButtonIndex();
+                for(Button button : menu.getMenuElements())
+                    button.setSelected(false);
+                if (index ==(int) menu.getMenuElements().size())
+                    index = 0;
+                menu.getMenuElements()[index].setSelected(true);
+            }
         }
 
         window.clear(sf::Color::Black);
 
+
         menu.setRectanglesPosition(windowWidth, windowHeight);
         menu.draw(window);
-//        button.changeAspect();
-//        button2.changeAspect();
-//
-//        window.draw(button.getRectangle());
-//        window.draw(button.getTextButton());
-//
-//        window.draw(button2.getRectangle());
-//        window.draw(button2.getTextButton());
 
         window.display();
     }

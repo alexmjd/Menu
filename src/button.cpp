@@ -10,51 +10,12 @@ Button::Button() {
     _rect.setOrigin(_buttonWidth / 2, _buttonHeight /2);
     _rect.setPosition(_buttonWidth / 2, _buttonHeight /2);
 
-    std::string path;
+    setFontPath();
 
-    // Different path by OS
-#if _WIN64
-    path = "C:\\Windows\\Fonts\\";
-#elif __MACH__
-    path = "/System/Library/Fonts/Supplemental/";
-#endif
-
-    path += "arial.ttf";
-
-    if (!_font.loadFromFile(path))
-        std::cout << "Error loading font." << std::endl;
-
-
-    _text.setFont(_font);
+//    _text.setFont(_font);
     _text.setFillColor(sf::Color::Red);
     _text.setCharacterSize(40);
-    setTextButton("I am a button");
-}
-
-Button::Button(float windowX, float windowY) {
-    _rect.setSize(sf::Vector2(_buttonWidth, _buttonHeight));
-    _rect.setOrigin(_buttonWidth / 2, _buttonHeight /2);
-    _rect.setPosition(windowX, windowY);
-
-    std::string path;
-
-    // Different path by OS
-    #if _WIN64
-        path = "C:\\Windows\\Fonts\\";
-    #elif __MACH__
-        path = "/System/Library/Fonts/Supplemental/";
-    #endif
-
-    path += "arial.ttf";
-
-    if (!_font.loadFromFile(path))
-        std::cout << "Error loading font." << std::endl;
-
-
-    _text.setFont(_font);
-    _text.setFillColor(sf::Color::Red);
-    _text.setCharacterSize(40);
-    setTextButton("I am a button");
+//    setTextButton("I am a button");
 }
 
 Button::~Button() {}
@@ -68,6 +29,7 @@ void Button::setRectanglePosition(float x, float y) {
 }
 
 void Button::setTextButton(std::string str) {
+    // Setting font here to avoid SEGFAULT
     _text.setFont(_font);
     _text.setString(str);
     _text.setOrigin(_text.getGlobalBounds().width / 2, _text.getLocalBounds().height);
@@ -86,6 +48,9 @@ void Button::setSelected(bool select) {
     _selected = select;
 }
 
+/**
+ * Change button if selected
+ */
 void Button::changeAspect() {
     if (isSelected()) {
         _rect.setFillColor(sf::Color::Green);
@@ -94,4 +59,22 @@ void Button::changeAspect() {
         _rect.setFillColor(sf::Color::White);
         _text.setFillColor(sf::Color::Red);
     }
+}
+
+/**
+ * Set font path by OS. Default font is arial
+ * @param font
+ */
+void Button::setFontPath(std::string font) {
+    // Different path by OS
+#if _WIN64
+    _path = "C:\\Windows\\Fonts\\";
+#elif __MACH__
+    _path = "/System/Library/Fonts/Supplemental/";
+#endif
+
+    _path += font;
+
+    if (!_font.loadFromFile(_path))
+        std::cout << "Error loading font." << std::endl;
 }

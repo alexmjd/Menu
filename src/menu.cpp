@@ -4,17 +4,28 @@
 
 #include "menu.h"
 
-void Menu::fillMenu() {
-    for (int i = 1; i < 4; i++) {
-        Button button;
-//        button.setRectanglePosition(i * x/2 , y/2);
-//        Button button(i * (x / _menuElements.size()), y / 2);
-        button.setTextButton("Button " + std::to_string(i));
-//        button.setRectanglePosition(x * i / (_menuElements.size()+1), y / 2);
-        _menuElements.push_back(button);
-    }
+Menu::Menu() {
+    fillMenu(4);
 }
 
+Menu::~Menu() {}
+
+/**
+ * Put `limit` buttons in the menu
+ */
+void Menu::fillMenu(int limit) {
+    for (int i = 1; i < limit; i++) {
+        Button button;
+        _menuElements.push_back(button);
+    }
+//    _menuElements[0].setSelected(true);
+}
+
+/**
+ * Place each button in the menu
+ * @param windowX
+ * @param windowY
+ */
 void Menu::setRectanglesPosition(float windowX, float windowY) {
     float x;
     for (unsigned long i = 1; i < _menuElements.size()+1; i++) {
@@ -23,16 +34,48 @@ void Menu::setRectanglesPosition(float windowX, float windowY) {
     }
 }
 
+/**
+ * Draw each button with their own text
+ * @param window
+ */
 void Menu::draw(sf::RenderWindow& window) {
-    sf::Text text;
     int i = 1;
     for(Button button: _menuElements) {
-        window.draw(button.getRectangle());
-//        text = button.getTextButton();
-//        text.setPosition(button.getRectangle().getPosition().x, button.getRectangle().getPosition().y);
-//        window.draw(text);
         button.setTextButton("Button " + std::to_string(i));
+        button.changeAspect();
+        window.draw(button.getRectangle());
         window.draw(button.getTextButton());
         i++;
     }
+}
+
+std::vector<Button>& Menu::getMenuElements() {
+    return _menuElements;
+}
+
+int Menu::getSelectedButtonIndex()
+{
+    bool test = true;
+    auto it = find_if(_menuElements.begin(), _menuElements.end(), [&test](const Button& obj) {return obj.isSelected() == test;});
+
+    if (it != _menuElements.end())
+    {
+        // found element. it is an iterator to the first matching element.
+        // if you really need the index, you can also get it:
+        return std::distance(_menuElements.begin(), it);
+//        auto index = std::distance(_menuElements.begin(), it);
+    }
+    return 0;
+
+    int index = 0;
+    for(Button button: _menuElements) {
+        if (!button.isSelected())
+            index++;
+        else
+            break;
+    }
+
+    if (index == (int)_menuElements.size())
+        return 0;
+    return index;
 }

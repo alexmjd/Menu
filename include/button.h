@@ -14,6 +14,8 @@ private:
     sf::Font _font;
     sf::Text _text;
 
+    std::string _path;
+
     float _buttonWidth{200.f};
     float _buttonHeight{150.f};
 
@@ -23,6 +25,8 @@ public:
     Button();
     Button(float windowX, float windowY);
     ~Button();
+
+    void setFontPath(std::string font = "arial.ttf");
 
     sf::RectangleShape getRectangle() const;
     void setRectanglePosition(float x, float y);
