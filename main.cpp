@@ -12,7 +12,7 @@ int main() {
 
     Menu menu;
 
-    int index;
+//    int index;
 
     while (window.isOpen()) {
         sf::Event event;
@@ -24,21 +24,23 @@ int main() {
 
             if (event.type == sf::Event::KeyPressed &&
                 (event.key.code == sf::Keyboard::Left)) {
-                index = menu.getSelectedButtonIndex();
-                for(Button button : menu.getMenuElements())
-                    button.setSelected(false);
-                if (index == 0)
-                    index = menu.getMenuElements().size();
-                menu.getMenuElements()[index].setSelected(true);
+                // GetSelectedIndex
+                int i = menu.getSelectedButtonIndex();
+                menu.getMenuElements()[i].setSelected(false);
+                if (i == 0)
+                    menu.getMenuElements()[menu.getMenuElements().size() - 1].setSelected(true);
+                else
+                    menu.getMenuElements()[i-1].setSelected(true);
+
             }
             if (event.type == sf::Event::KeyPressed &&
                 (event.key.code == sf::Keyboard::Right)) {
-                index = menu.getSelectedButtonIndex();
-                for(Button button : menu.getMenuElements())
-                    button.setSelected(false);
-                if (index ==(int) menu.getMenuElements().size())
-                    index = 0;
-                menu.getMenuElements()[index].setSelected(true);
+                int i = menu.getSelectedButtonIndex();
+                menu.getMenuElements()[i].setSelected(false);
+                if (i == (int)menu.getMenuElements().size() - 1)
+                    menu.getMenuElements()[0].setSelected(true);
+                else
+                    menu.getMenuElements()[i+1].setSelected(true);
             }
         }
 
