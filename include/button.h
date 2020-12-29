@@ -27,7 +27,7 @@ public:
     sf::RectangleShape getRectangle() const;
     void setRectanglePosition(float x, float y);
 
-    sf::Text getTextButton() const;
+    sf::Text getTextButton() const ;
     void setTextButton(std::string str);
 
     bool isSelected() const;

@@ -5,12 +5,17 @@
 #ifndef MENU_MENU_H
 #define MENU_MENU_H
 
+#include <button.h>
 
 class Menu {
 
 private:
-//    sf::vector<Button> _menuElements;
+    std::vector<Button> _menuElements;
 public:
+
+    void fillMenu();
+    void draw(sf::RenderWindow& window);
+    void setRectanglesPosition(float windowX, float windowY);
 
 };
 
