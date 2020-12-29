@@ -23,6 +23,8 @@ public:
     std::vector<Button> &getMenuElements();
     int getSelectedButtonIndex();
 
+    void moveCursor(sf::Event &event, int index);
+    void triggerButton(sf::Event &event, int index);
 };
 
 

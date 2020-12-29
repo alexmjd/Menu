@@ -42,7 +42,6 @@ void Menu::setRectanglesPosition(float windowX, float windowY) {
  */
 void Menu::draw(sf::RenderWindow& window) {
     for(Button button: _menuElements) {
-        std::cout << "Button index :: " << button.getIndex() << std::endl;
         button.setTextButton("Button " + std::to_string(button.getIndex()));
         button.changeAspect();
         button.draw(window);
@@ -53,8 +52,52 @@ std::vector<Button>& Menu::getMenuElements() {
     return _menuElements;
 }
 
+/**
+ * Find in the current menu which item is selected and return its index
+ * @return
+ */
 int Menu::getSelectedButtonIndex()
 {
-    auto it = std::find_if(_menuElements.begin(), _menuElements.end(), [&](Button const& obj) {return obj.isSelected();});
+    // Use lambda as predicate to return which object is selected in the vector
+    auto it = std::find_if(_menuElements.begin(), _menuElements.end(), [&](Button const& obj) {
+        return obj.isSelected();
+    });
     return it->getIndex();
+}
+
+/**
+ * Set current selected button to false
+ * Move the cursor depending on which key is pressed (left or right)
+ * @param event
+ * @param index
+ */
+void Menu::moveCursor(sf::Event &event, int index) {
+
+    // While no events are triggered by selected button, this condition stays
+    if (event.key.code != sf::Keyboard::Space && event.key.code != sf::Keyboard::Enter)
+        getMenuElements()[index].setSelected(false);
+
+    if (event.key.code == sf::Keyboard::Left) {
+        if (index == 0)
+            getMenuElements()[getMenuElements().size() - 1].setSelected(true);
+        else
+            getMenuElements()[index-1].setSelected(true);
+    } else if (event.key.code == sf::Keyboard::Right) {
+        if (index == (int)getMenuElements().size() - 1)
+            getMenuElements()[0].setSelected(true);
+        else
+            getMenuElements()[index+1].setSelected(true);
+    }
+}
+
+/**
+ * Trigger the button with selected state and run some code
+ * @param event
+ * @param index
+ */
+void Menu::triggerButton(sf::Event &event, int index) {
+    if (event.key.code != sf::Keyboard::Space && event.key.code != sf::Keyboard::Enter)
+        std::cout << "Cleanse." << std::endl;
+    else
+        std::cout << "Button " << index << " Selected." << std::endl;
 }
