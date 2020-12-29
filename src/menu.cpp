@@ -2,10 +2,11 @@
 // Created by alexandre majda on 28/12/2020.
 //
 
-#include "menu.h"
+#include <menu.h>
+#include <iostream>
 
 Menu::Menu() {
-    fillMenu(4);
+    fillMenu(3);
 }
 
 Menu::~Menu() {}
@@ -14,11 +15,12 @@ Menu::~Menu() {}
  * Put `limit` buttons in the menu
  */
 void Menu::fillMenu(int limit) {
-    for (int i = 1; i < limit; i++) {
+    for (int i = 0; i < limit; i++) {
         Button button;
+        button.setIndex(i);
         _menuElements.push_back(button);
     }
-//    _menuElements[0].setSelected(true);
+    _menuElements[0].setSelected(true);
 }
 
 /**
@@ -39,13 +41,11 @@ void Menu::setRectanglesPosition(float windowX, float windowY) {
  * @param window
  */
 void Menu::draw(sf::RenderWindow& window) {
-    int i = 1;
     for(Button button: _menuElements) {
-        button.setTextButton("Button " + std::to_string(i));
+        std::cout << "Button index :: " << button.getIndex() << std::endl;
+        button.setTextButton("Button " + std::to_string(button.getIndex()));
         button.changeAspect();
-        window.draw(button.getRectangle());
-        window.draw(button.getTextButton());
-        i++;
+        button.draw(window);
     }
 }
 
@@ -55,27 +55,6 @@ std::vector<Button>& Menu::getMenuElements() {
 
 int Menu::getSelectedButtonIndex()
 {
-    bool test = true;
-    auto it = find_if(_menuElements.begin(), _menuElements.end(), [&test](const Button& obj) {return obj.isSelected() == test;});
-
-    if (it != _menuElements.end())
-    {
-        // found element. it is an iterator to the first matching element.
-        // if you really need the index, you can also get it:
-        return std::distance(_menuElements.begin(), it);
-//        auto index = std::distance(_menuElements.begin(), it);
-    }
-    return 0;
-
-    int index = 0;
-    for(Button button: _menuElements) {
-        if (!button.isSelected())
-            index++;
-        else
-            break;
-    }
-
-    if (index == (int)_menuElements.size())
-        return 0;
-    return index;
+    auto it = std::find_if(_menuElements.begin(), _menuElements.end(), [&](Button const& obj) {return obj.isSelected();});
+    return it->getIndex();
 }
