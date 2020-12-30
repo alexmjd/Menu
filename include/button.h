@@ -6,21 +6,20 @@
 #define MENU_BUTTON_H
 
 #include <SFML/Graphics.hpp>
+#include <text_manager.h>
 
 class Button {
 
 private:
     sf::RectangleShape _rect;
-    sf::Font _font;
-    sf::Text _text;
 
-    int _index;
-
-    std::string _path;
+    TextManager _textManager;
 
     float _buttonWidth{200.f};
     float _buttonHeight{150.f};
 
+    int _index;
+    std::string _path;
     bool _selected{false};
 
 public:
@@ -28,12 +27,9 @@ public:
     Button(float windowX, float windowY);
     ~Button();
 
-    void setFontPath(std::string font = "arial.ttf");
-
     sf::RectangleShape getRectangle() const;
     void setRectanglePosition(float x, float y);
 
-    sf::Text getTextButton() const ;
     void setTextButton(std::string str);
 
     bool isSelected() const;

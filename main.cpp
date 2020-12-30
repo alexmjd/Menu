@@ -1,6 +1,7 @@
 #include <SFML/Graphics.hpp>
 #include <menu.h>
 #include <iostream>
+#include <text_manager.h>
 
 int main() {
 
@@ -9,25 +10,8 @@ int main() {
 
     window.setFramerateLimit(60);
 
-    std::string _path;
-    sf::Font font;
-    sf::Text t;
 
-    #if _WIN64
-        _path = "C:\\Windows\\Fonts\\";
-    #elif __MACH__
-        _path = "/System/Library/Fonts/Supplemental/";
-    #endif
-
-    _path += "arial.ttf";
-
-    if (!font.loadFromFile(_path))
-        std::cout << "Error loading font." << std::endl;
-
-    t.setFont(font);
-    t.setFillColor(sf::Color::White);
-    t.setPosition(windowWidth/2, windowHeight);
-    t.setOrigin(t.getGlobalBounds().width / 2, t.getGlobalBounds().height*2);
+    TextManager textManager;
 
     Menu menu;
     std::string str;
@@ -41,12 +25,9 @@ int main() {
                 window.close();
 
             if (event.type == sf::Event::KeyPressed) {
-//                buttonIndex = menu.getSelectedButtonIndex();
                 menu.moveCursor(event, menu.getSelectedButtonIndex());
                 str = menu.triggerButton(event);
-                t.setString(str);
-                // Need to setup origin when you change the string of sf::Text
-                t.setOrigin(t.getGlobalBounds().width / 2, t.getGlobalBounds().height*2);
+                textManager.setText(str, windowWidth/2, windowHeight);
             }
         }
 
@@ -54,7 +35,9 @@ int main() {
 
         menu.setRectanglesPosition(windowWidth, windowHeight);
         menu.draw(window);
-        window.draw(t);
+        // Dunno why i need to reset textOrigin, while it's already done in `textManager.setText()`
+        textManager.getText().setOrigin(textManager.getText().getGlobalBounds().width /2, textManager.getText().getGlobalBounds().height*2);
+        window.draw(textManager.getText());
 
         window.display();
     }
