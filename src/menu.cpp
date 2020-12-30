@@ -95,9 +95,10 @@ void Menu::moveCursor(sf::Event &event, int index) {
  * @param event
  * @param index
  */
-void Menu::triggerButton(sf::Event &event, int index) {
-    if (event.key.code != sf::Keyboard::Space && event.key.code != sf::Keyboard::Enter)
-        std::cout << "Cleanse." << std::endl;
-    else
-        std::cout << "Button " << index << " Selected." << std::endl;
+std::string Menu::triggerButton(sf::Event &event) {
+
+    std::string test = "";
+    if (event.key.code == sf::Keyboard::Space || event.key.code == sf::Keyboard::Enter)
+        test = "Validation on " + std::to_string(getSelectedButtonIndex());
+    return test;
 }

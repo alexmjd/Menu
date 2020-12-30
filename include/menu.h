@@ -24,7 +24,7 @@ public:
     int getSelectedButtonIndex();
 
     void moveCursor(sf::Event &event, int index);
-    void triggerButton(sf::Event &event, int index);
+    std::string triggerButton(sf::Event &event);
 };
 
 
