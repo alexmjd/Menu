@@ -66,15 +66,15 @@ int Menu::getSelectedButtonIndex()
 }
 
 /**
+ * On moving (left / right)
  * Set current selected button to false
- * Move the cursor depending on which key is pressed (left or right)
+ * Move the cursor depending on which key is pressed
  * @param event
  * @param index
  */
 void Menu::moveCursor(sf::Event &event, int index) {
 
-    // While no events are triggered by selected button, this condition stays
-    if (event.key.code != sf::Keyboard::Space && event.key.code != sf::Keyboard::Enter)
+    if (event.key.code == sf::Keyboard::Left || event.key.code == sf::Keyboard::Right)
         getMenuElements()[index].setSelected(false);
 
     if (event.key.code == sf::Keyboard::Left) {
