@@ -4,16 +4,11 @@
 
 #include <text_manager.h>
 
-//TextManager TextManager::_instance = TextManager();
 
 TextManager::TextManager() {
     loadFont();
     _text.setString("Basic Button");
 }
-
-//TextManager& TextManager::getInstance() {
-//    return _instance;
-//}
 
 /**
  * Set font path by OS. Default font is arial (define in header file)
