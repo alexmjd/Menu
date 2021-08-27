@@ -21,6 +21,9 @@ void TextManager::loadFont(std::string strFont) {
         _path = "C:\\Windows\\Fonts\\";
     #elif __MACH__
         _path = "/System/Library/Fonts/Supplemental/";
+    #elif __linux__
+        strFont = "Quicksand-Regular.ttf";
+        _path = "../assets/fonts/";
     #endif
 
     _path += strFont;
